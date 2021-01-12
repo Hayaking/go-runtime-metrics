@@ -1,6 +1,7 @@
 package collector
 
 import (
+	"os"
 	"runtime"
 	"time"
 )
@@ -96,6 +97,7 @@ func (c *Collector) collectStats() Fields {
 	fields.Goos = runtime.GOOS
 	fields.Goarch = runtime.GOARCH
 	fields.Version = runtime.Version()
+	fields.HostName, _ = os.Hostname()
 
 	return fields
 }
@@ -195,6 +197,7 @@ type Fields struct {
 	Goarch  string `json:"-"`
 	Goos    string `json:"-"`
 	Version string `json:"-"`
+	HostName string `json:"-"`
 }
 
 func (f *Fields) Tags() map[string]string {
@@ -202,6 +205,7 @@ func (f *Fields) Tags() map[string]string {
 		"go.os":      f.Goos,
 		"go.arch":    f.Goarch,
 		"go.version": f.Version,
+		"hostname": f.HostName,
 	}
 }
 
