@@ -131,11 +131,11 @@ func RunCollector(config *Config) (err error) {
 	}
 
 	// Auto create database
-	_, err = queryDB(clnt, fmt.Sprintf("CREATE DATABASE \"%s\"", config.Database))
-
-	if err != nil {
-		config.Logger.Fatalln(err)
-	}
+	//_, err = queryDB(clnt, fmt.Sprintf("CREATE DATABASE \"%s\"", config.Database))
+	//
+	//if err != nil {
+	//	config.Logger.Fatalln(err)
+	//}
 
 	_runStats := &runStats{
 		logger: config.Logger,
