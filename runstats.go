@@ -4,9 +4,6 @@ import (
 	"log"
 	"os"
 	"time"
-
-	"fmt"
-
 	"github.com/influxdata/influxdb/client/v2"
 	"github.com/pkg/errors"
 	"github.com/malusama/go-runtime-metrics/collector"
