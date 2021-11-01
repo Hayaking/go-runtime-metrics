@@ -1,12 +1,12 @@
 package runstats
 
 import (
+	"github.com/influxdata/influxdb/client/v2"
+	"github.com/malusama/go-runtime-metrics/collector"
+	"github.com/pkg/errors"
 	"log"
 	"os"
 	"time"
-	"github.com/influxdata/influxdb/client/v2"
-	"github.com/pkg/errors"
-	"github.com/malusama/go-runtime-metrics/collector"
 )
 
 const (
@@ -66,6 +66,8 @@ type Config struct {
 
 	// Default is DefaultLogger which exits when the library encounters a fatal error.
 	Logger Logger
+
+	Env string
 }
 
 func (config *Config) init() (*Config, error) {
@@ -171,7 +173,9 @@ type runStats struct {
 }
 
 func (r *runStats) onNewPoint(fields collector.Fields) {
-	pt, err := client.NewPoint(r.config.Measurement, fields.Tags(), fields.Values(), time.Now())
+	tags := fields.Tags()
+	tags["env"] = r.config.Env
+	pt, err := client.NewPoint(r.config.Measurement, tags, fields.Values(), time.Now())
 
 	if err != nil {
 		r.logger.Fatalln(errors.Wrap(err, "error while creating point"))
